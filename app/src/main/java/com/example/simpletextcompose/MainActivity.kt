@@ -3,7 +3,8 @@ package com.example.simpletextcompose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -21,10 +22,10 @@ class MainActivity : ComponentActivity() {
             SimpleTextComposeTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxWidth(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    GreetingButton()
                 }
             }
         }
@@ -32,14 +33,28 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String) {
+fun GreetingText(name: String) {
     Text(text = "Hello $name!")
+}
+
+@Composable
+fun GreetingButton() {
+
+    Button(onClick = {}) {
+        GreetingText(name = "beautiful button")
+    }
+
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     SimpleTextComposeTheme {
-        Greeting("Android")
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            color = MaterialTheme.colors.background
+        ) {
+            GreetingButton()
+        }
     }
 }
