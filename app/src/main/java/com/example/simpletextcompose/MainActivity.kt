@@ -3,7 +3,6 @@ package com.example.simpletextcompose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
@@ -12,9 +11,12 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.simpletextcompose.ui.theme.SimpleTextComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -38,13 +40,25 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun GreetingText(name: String) {
-    Text(text = "Hello $name!", modifier = Modifier.fillMaxWidth().padding(8.dp), textAlign = TextAlign.Center)
+    Text(
+        text = "Hello $name!",
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        textAlign = TextAlign.Center,
+        style = TextStyle(
+            color = Color.Black, fontSize = 28.sp
+        )
+    )
 }
 
 @Composable
 fun GreetingButton() {
 
-    Button(onClick = {} ) {
+    Button(
+        onClick = {},
+        modifier = Modifier.padding(top = 20.dp)
+    ) {
         GreetingText(name = "beautiful button")
     }
 
