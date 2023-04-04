@@ -4,10 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,7 +28,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    GreetingButton()
+                    GreetingButton(msg = "first button", Color.Blue)
                 }
             }
         }
@@ -39,7 +36,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun GreetingText(name: String) {
+fun GreetingText(name: String, color: Color) {
     Text(
         text = "Hello $name!",
         modifier = Modifier
@@ -47,21 +44,23 @@ fun GreetingText(name: String) {
             .padding(8.dp),
         textAlign = TextAlign.Center,
         style = TextStyle(
-            color = Color.Black, fontSize = 28.sp
+            color = Color.Black, fontSize = 28.sp, background = color
         )
     )
 }
 
 @Composable
-fun GreetingButton() {
+fun GreetingButton(msg: String, color: Color) {
 
-    Button(
-        onClick = {},
-        modifier = Modifier
-            .padding(top = 20.dp)
-            .wrapContentSize(align = Alignment.TopCenter)
-    ) {
-        GreetingText(name = "beautiful button")
+    Surface(color = color) {
+        Button(
+            onClick = {},
+            modifier = Modifier
+                .padding(top = 20.dp)
+                .wrapContentSize(align = Alignment.TopCenter),
+        ) {
+            GreetingText(name = msg, color)
+        }
     }
 
 }
@@ -75,8 +74,8 @@ fun DefaultPreview() {
             color = MaterialTheme.colors.background
         ) {
             Column {
-                GreetingButton()
-                GreetingButton()
+                GreetingButton(msg = "first button", Color.Blue)
+                GreetingButton(msg = "second button", Color.Red)
             }
         }
     }
