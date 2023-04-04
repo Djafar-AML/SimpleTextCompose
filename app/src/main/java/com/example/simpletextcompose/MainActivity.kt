@@ -10,7 +10,6 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -61,8 +60,8 @@ fun GreetingButton(msg: String, color: Color) {
             onClick = {},
             modifier = Modifier
                 .padding(top = 20.dp)
-                .width(200.dp)
-                .height(200.dp)
+                .width(150.dp)
+                .height(150.dp)
         ) {
             GreetingText(name = msg, color)
         }
@@ -82,10 +81,17 @@ fun DefaultPreview() {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(8.dp),
-                verticalArrangement = Arrangement.Top,
+                verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally
             )
             {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    GreetingButton(msg = "first button", Color.Blue)
+                    GreetingButton(msg = "second button", Color.Red)
+                }
                 GreetingButton(msg = "first button", Color.Blue)
                 GreetingButton(msg = "second button", Color.Red)
             }
