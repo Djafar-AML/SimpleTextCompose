@@ -4,9 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -57,7 +61,8 @@ fun GreetingButton(msg: String, color: Color) {
             onClick = {},
             modifier = Modifier
                 .padding(top = 20.dp)
-                .wrapContentSize(align = Alignment.TopCenter),
+                .width(200.dp)
+                .height(200.dp)
         ) {
             GreetingText(name = msg, color)
         }
@@ -71,9 +76,16 @@ fun DefaultPreview() {
     SimpleTextComposeTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colors.background
+            color = MaterialTheme.colors.background,
         ) {
-            Column {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(8.dp),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
+            )
+            {
                 GreetingButton(msg = "first button", Color.Blue)
                 GreetingButton(msg = "second button", Color.Red)
             }
