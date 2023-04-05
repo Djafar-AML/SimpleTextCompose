@@ -5,13 +5,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,7 +42,11 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen() {
 
-    val greetingListState: SnapshotStateList<String> = remember { mutableStateListOf("Jeff") }
+    val greetingListState: SnapshotStateList<String> = remember { mutableStateListOf() }
+
+    val userInput: MutableState<String> = remember {
+        mutableStateOf("")
+    }
 
     Surface(
         color = MaterialTheme.colors.background,
@@ -60,10 +59,17 @@ fun MainScreen() {
         )
         {
 
+
             GreetingList(greetingListState)
 
+            UserNameInput(userInput.value) { newUserInput ->
+                userInput.value = newUserInput
+            }
+
             ColoredButton {
-                greetingListState.add("new user")
+                if (userInput.value.isBlank().not()) {
+                    greetingListState.add(userInput.value)
+                }
             }
 
         }
@@ -79,6 +85,13 @@ fun GreetingList(greetingList: List<String>) {
     greetingList.forEach {
         GreetingText(msg = it, color = Color.LightGray)
     }
+
+}
+
+@Composable
+fun UserNameInput(userInput: String, userNewInput: (String) -> Unit) {
+
+    TextField(value = userInput, onValueChange = { userNewInput(it) })
 
 }
 
