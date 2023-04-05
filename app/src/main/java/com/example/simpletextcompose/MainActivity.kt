@@ -37,9 +37,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MainScreen(Color.Blue) {
-                        names.add("new user!")
-                    }
+                    MainScreen()
                 }
             }
         }
@@ -47,7 +45,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen(color: Color, onColoredButtonClick: () -> Unit) {
+fun MainScreen() {
+
+    val greetingListState: SnapshotStateList<String> = remember { mutableStateListOf("Jeff") }
 
     Surface(
         color = MaterialTheme.colors.background,
@@ -60,8 +60,12 @@ fun MainScreen(color: Color, onColoredButtonClick: () -> Unit) {
         )
         {
 
+            GreetingList(greetingListState)
 
-            GreetingList(color)
+            ColoredButton {
+                greetingListState.add("new user")
+            }
+
         }
 
     }
@@ -70,17 +74,12 @@ fun MainScreen(color: Color, onColoredButtonClick: () -> Unit) {
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun GreetingList(color: Color) {
+fun GreetingList(greetingList: List<String>) {
 
-    val greetingListState: SnapshotStateList<String> = remember { mutableStateListOf("Jeff") }
-
-
-    greetingListState.forEach {
-        GreetingText(msg = it, color = color)
+    greetingList.forEach {
+        GreetingText(msg = it, color = Color.LightGray)
     }
-    ColoredButton {
-        greetingListState.add("new user")
-    }
+
 }
 
 @Composable
@@ -114,15 +113,14 @@ fun ColoredButton(onColoredButtonClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
+
     SimpleTextComposeTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.background,
         ) {
-            MainScreen(color = Color.Green) {
-
-                names.add("new user!")
-            }
+            MainScreen()
         }
     }
+
 }
