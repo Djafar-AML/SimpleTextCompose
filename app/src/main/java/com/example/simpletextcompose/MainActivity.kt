@@ -1,5 +1,6 @@
 package com.example.simpletextcompose
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,6 +10,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,6 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.simpletextcompose.ui.theme.SimpleTextComposeTheme
+
+val names: ArrayList<String> = arrayListOf("Jeff", "Rol", "Mel", "Xof")
 
 class MainActivity : ComponentActivity() {
 
@@ -31,7 +37,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    GreetingButton(msg = "first button", Color.Blue)
+                    MainScreen(Color.Blue) {
+                        names.add("new user!")
+                    }
                 }
             }
         }
@@ -39,9 +47,46 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun GreetingText(name: String, color: Color) {
+fun MainScreen(color: Color, onColoredButtonClick: () -> Unit) {
+
+    Surface(
+        color = MaterialTheme.colors.background,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Column(
+            modifier = Modifier.padding(8.dp),
+            verticalArrangement = Arrangement.SpaceEvenly,
+            horizontalAlignment = Alignment.CenterHorizontally
+        )
+        {
+
+
+            GreetingList(color)
+        }
+
+    }
+
+}
+
+@SuppressLint("UnrememberedMutableState")
+@Composable
+fun GreetingList(color: Color) {
+
+    val greetingListState: SnapshotStateList<String> = remember { mutableStateListOf("Jeff") }
+
+
+    greetingListState.forEach {
+        GreetingText(msg = it, color = color)
+    }
+    ColoredButton {
+        greetingListState.add("new user")
+    }
+}
+
+@Composable
+fun GreetingText(msg: String, color: Color) {
     Text(
-        text = "Hello $name!",
+        text = "Hello $msg!",
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
@@ -53,18 +98,15 @@ fun GreetingText(name: String, color: Color) {
 }
 
 @Composable
-fun GreetingButton(msg: String, color: Color) {
+fun ColoredButton(onColoredButtonClick: () -> Unit) {
 
-    Surface(color = color) {
-        Button(
-            onClick = {},
-            modifier = Modifier
-                .padding(top = 20.dp)
-                .width(150.dp)
-                .height(150.dp)
-        ) {
-            GreetingText(name = msg, color)
-        }
+    Button(
+        onClick = { onColoredButtonClick() },
+        modifier = Modifier
+            .width(150.dp)
+            .height(60.dp)
+    ) {
+        Text(text = "add a new user", color = Color.Magenta)
     }
 
 }
@@ -77,23 +119,9 @@ fun DefaultPreview() {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.background,
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(8.dp),
-                verticalArrangement = Arrangement.SpaceEvenly,
-                horizontalAlignment = Alignment.CenterHorizontally
-            )
-            {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    GreetingButton(msg = "first button", Color.Blue)
-                    GreetingButton(msg = "second button", Color.Red)
-                }
-                GreetingButton(msg = "first button", Color.Blue)
-                GreetingButton(msg = "second button", Color.Red)
+            MainScreen(color = Color.Green) {
+
+                names.add("new user!")
             }
         }
     }
