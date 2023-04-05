@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,13 +41,11 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen() {
+fun MainScreen(viewModel: MainViewModel = MainViewModel()) {
 
     val greetingListState: SnapshotStateList<String> = remember { mutableStateListOf() }
 
-    val userInput: MutableState<String> = remember {
-        mutableStateOf("")
-    }
+    val userInputContent = viewModel.userNameState.observeAsState("")
 
     Surface(
         color = MaterialTheme.colors.background,
@@ -62,13 +61,13 @@ fun MainScreen() {
 
             GreetingList(greetingListState)
 
-            UserNameInput(userInput.value) { newUserInput ->
-                userInput.value = newUserInput
+            UserNameInput(userInputContent.value) { newUserInput ->
+                viewModel.changeUserName(newUserInput)
             }
 
             ColoredButton {
-                if (userInput.value.isBlank().not()) {
-                    greetingListState.add(userInput.value)
+                if (userInputContent.value.isBlank().not()) {
+                    greetingListState.add(userInputContent.value)
                 }
             }
 
